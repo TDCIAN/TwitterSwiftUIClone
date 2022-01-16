@@ -17,6 +17,7 @@ struct SideMenuOptionRowView: View {
                 .foregroundColor(.gray)
             
             Text(viewModel.title)
+                .foregroundColor(.black)
                 .font(.subheadline)
             
             Spacer()
