@@ -22,7 +22,6 @@ struct TwitterSwiftUIApp: App {
                 ContentView()
             }
             .environmentObject(viewModel)
-//            LoginView()
         }
     }
 }
