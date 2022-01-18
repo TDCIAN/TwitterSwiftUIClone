@@ -76,8 +76,13 @@ class AuthViewModel: ObservableObject {
         ImageUploader.uploadImage(image: image) { profileImageUrl in
             Firestore.firestore().collection("users")
                 .document(uid)
-                .updateData(["profileImageUrl": profileImageUrl]) { _ in
-                    self.userSession = self.tempUserSession
+                .updateData(["profileImageUrl": profileImageUrl]) { error in
+                    if let error = error {
+                        print("AuthViewModel - uploadProfile error: \(error.localizedDescription)")
+                    } else {
+                        self.userSession = self.tempUserSession
+                        print("AuthViewModel - uploadProfile success: \(self.userSession)")
+                    }
                 }
         }
     }

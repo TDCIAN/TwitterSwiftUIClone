@@ -71,7 +71,8 @@ struct ProfilePhotoSelectorView: View {
     func loadImage() {
         guard let selectedImage = selectedImage else { return }
         profileImage = Image(uiImage: selectedImage)
-        print("로드이미지 호출: \(profileImage)")
+        print("로드이미지 호출 - profileImage: \(profileImage), selectedImage: \(selectedImage)")
+        viewModel.uploadProfileImage(selectedImage)
     }
 }
 

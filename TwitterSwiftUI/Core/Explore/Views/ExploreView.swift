@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ExploreView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -15,7 +17,7 @@ struct ExploreView: View {
                     LazyVStack {
                         ForEach(0...25, id: \.self) { _ in
                             NavigationLink(destination: {
-                                ProfileView()
+//                                ProfileView(user: viewModel.currentUser)
                             }, label: {
                                 UserRowView()
                             })
@@ -27,11 +29,5 @@ struct ExploreView: View {
             .navigationTitle("Explore")
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-struct ExploreView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExploreView()
     }
 }
