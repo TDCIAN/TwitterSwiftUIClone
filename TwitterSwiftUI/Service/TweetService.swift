@@ -49,7 +49,10 @@ struct TweetService {
             completion(tweets.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() }))
         }
     }
-    
+
+}
+
+extension TweetService {
     func likeTweet(_ tweet: Tweet, completion: @escaping() -> Void) {
         print("DEBUG: Like tweet here")
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -92,6 +95,29 @@ struct TweetService {
             .document(tweetId).getDocument { snapshot, _ in
                 guard let snapshot = snapshot else { return }
                 completion(snapshot.exists)
+            }
+    }
+    
+    func fetchLikedTweets(forUid uid: String, completion: @escaping([Tweet]) -> Void) {
+        var tweets = [Tweet]()
+        Firestore.firestore().collection("users")
+            .document(uid)
+            .collection("user-likes")
+            .getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else { return }
+                
+                documents.forEach { doc in
+                    let tweetID = doc.documentID
+                    
+                    Firestore.firestore().collection("tweets")
+                        .document(tweetID)
+                        .getDocument { snapshot, _ in
+                            guard let tweet = try? snapshot?.data(as: Tweet.self) else { return }
+                            tweets.append(tweet)
+                            
+                            completion(tweets)
+                        }
+                }
             }
     }
 }

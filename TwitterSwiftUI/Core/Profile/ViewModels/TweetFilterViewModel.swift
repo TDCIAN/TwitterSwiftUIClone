@@ -15,7 +15,7 @@ enum TweetFilterViewModel: Int, CaseIterable {
     var title: String {
         switch self {
         case .tweets:
-            return "Twees"
+            return "Tweets"
         case .replies:
             return "Replies"
         case .likes:
